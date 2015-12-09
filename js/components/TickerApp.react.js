@@ -10,21 +10,19 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var MessageSection = require('./MessageSection.react');
+var TickerSection = require('./TickerSection.react');
 var React = require('react');
-var ThreadSection = require('./ThreadSection.react');
 
-var ChatApp = React.createClass({
+var TickerApp = React.createClass({
 
   render: function() {
     return (
       <div className="chatapp">
-        <ThreadSection />
-        <MessageSection />
+        <TickerSection />
       </div>
     );
   }
 
 });
 
-module.exports = ChatApp;
+module.exports = TickerApp;

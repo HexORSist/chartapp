@@ -10,27 +10,30 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var ChatAppDispatcher = require('../dispatcher/ChatAppDispatcher');
+var AppDispatcher = require('../dispatcher/AppDispatcher');
 var ChatConstants = require('../constants/ChatConstants');
-var ChatMessageUtils = require('../utils/ChatMessageUtils');
+//var ChatMessageUtils = require('../utils/ChatMessageUtils');
 var EventEmitter = require('events').EventEmitter;
-var ThreadStore = require('../stores/ThreadStore');
+//var ThreadStore = require('../stores/ThreadStore');
 var assign = require('object-assign');
 
 var ActionTypes = ChatConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
-var _messages = {};
+var _Tickers = [];
 
-function _addMessages(rawMessages) {
-  rawMessages.forEach(function(message) {
+function _addTickers(Tickers) {
+  //alert(Tickers);
+  /*Tickers.forEach(function(tickers) {
     if (!_messages[message.id]) {
       _messages[message.id] = ChatMessageUtils.convertRawMessage(
         message,
         ThreadStore.getCurrentID()
       );
     }
-  });
+    _Tickers.push(tickers);
+  });*/
+  _Tickers=Tickers;
 }
 
 function _markAllInThreadRead(threadID) {
@@ -41,7 +44,7 @@ function _markAllInThreadRead(threadID) {
   }
 }
 
-var MessageStore = assign({}, EventEmitter.prototype, {
+var TickerStore = assign({}, EventEmitter.prototype, {
 
   emitChange: function() {
     this.emit(CHANGE_EVENT);
@@ -69,8 +72,9 @@ var MessageStore = assign({}, EventEmitter.prototype, {
   /**
    * @param {string} threadID
    */
-  getAllForThread: function(threadID) {
-    var threadMessages = [];
+  getAllForThread: function() {
+    var tickers=_Tickers;
+    /*var threadMessages = [];
     for (var id in _messages) {
       if (_messages[id].threadID === threadID) {
         threadMessages.push(_messages[id]);
@@ -83,17 +87,17 @@ var MessageStore = assign({}, EventEmitter.prototype, {
         return 1;
       }
       return 0;
-    });
-    return threadMessages;
+    });*/
+    return tickers;
   },
 
-  getAllForCurrentThread: function() {
+  /*getAllForCurrentThread: function() {
     return this.getAllForThread(ThreadStore.getCurrentID());
-  }
+  }*/
 
 });
 
-MessageStore.dispatchToken = ChatAppDispatcher.register(function(action) {
+TickerStore.dispatchToken = AppDispatcher.register(function(action) {
 
   switch(action.type) {
 
@@ -113,10 +117,11 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(function(action) {
       break;
 
     case ActionTypes.RECEIVE_RAW_MESSAGES:
-      _addMessages(action.rawMessages);
-      ChatAppDispatcher.waitFor([ThreadStore.dispatchToken]);
-      _markAllInThreadRead(ThreadStore.getCurrentID());
-      MessageStore.emitChange();
+      //console.log(action);
+      _addTickers(action.Tickers);
+      //AppDispatcher.waitFor([ThreadStore.dispatchToken]);
+      //_markAllInThreadRead(ThreadStore.getCurrentID());
+      TickerStore.emitChange();
       break;
 
     default:
@@ -125,4 +130,4 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(function(action) {
 
 });
 
-module.exports = MessageStore;
+module.exports = TickerStore;

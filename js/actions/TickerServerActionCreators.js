@@ -10,17 +10,24 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var ChatAppDispatcher = require('../dispatcher/ChatAppDispatcher');
+var AppDispatcher = require('../dispatcher/AppDispatcher');
 var ChatConstants = require('../constants/ChatConstants');
 
 var ActionTypes = ChatConstants.ActionTypes;
 
 module.exports = {
 
-  clickThread: function(threadID) {
+  receiveAll: function(rawMessages) {
+    AppDispatcher.dispatch({
+      type: ActionTypes.RECEIVE_RAW_MESSAGES,
+      Tickers: rawMessages.Tickers
+    });
+  },
+
+  receiveCreatedMessage: function(createdMessage) {
     ChatAppDispatcher.dispatch({
-      type: ActionTypes.CLICK_THREAD,
-      threadID: threadID
+      type: ActionTypes.RECEIVE_RAW_CREATED_MESSAGE,
+      rawMessage: createdMessage
     });
   }
 

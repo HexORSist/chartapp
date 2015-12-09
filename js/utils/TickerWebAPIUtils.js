@@ -10,7 +10,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var ChatServerActionCreators = require('../actions/ChatServerActionCreators');
+var TickerServerActionCreators = require('../actions/TickerServerActionCreators');
 
 // !!! Please Note !!!
 // We are using localStorage as an example, but in a real-world scenario, this
@@ -21,12 +21,13 @@ var ChatServerActionCreators = require('../actions/ChatServerActionCreators');
 
 module.exports = {
 
-  getAllMessages: function() {
+  getAllTickers: function() {
     // simulate retrieving data from a database
-    var rawMessages = JSON.parse(localStorage.getItem('messages'));
+    //var rawMessages = JSON.parse(localStorage.getItem('messages'));
+    var rawMessages = {Tickers: ['ABC','GOOG','CBS']};
 
     // simulate success callback
-    ChatServerActionCreators.receiveAll(rawMessages);
+    TickerServerActionCreators.receiveAll(rawMessages);
   },
 
   createMessage: function(message, threadName) {

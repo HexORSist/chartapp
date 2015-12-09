@@ -10,25 +10,22 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var ChatAppDispatcher = require('../dispatcher/ChatAppDispatcher');
-var ChatConstants = require('../constants/ChatConstants');
+// This file bootstraps the entire application.
 
-var ActionTypes = ChatConstants.ActionTypes;
 
-module.exports = {
+var express = require('express');
+var app = express();
+var cookieParser = require('cookie-parser');
+var routes = require('./routes/routes.js');
 
-  receiveAll: function(rawMessages) {
-    ChatAppDispatcher.dispatch({
-      type: ActionTypes.RECEIVE_RAW_MESSAGES,
-      rawMessages: rawMessages
-    });
-  },
+app.use('/css', express.static(process.cwd() + '/css'));
+app.use('/js', express.static(process.cwd() + '/js'));
+app.use(cookieParser());
 
-  receiveCreatedMessage: function(createdMessage) {
-    ChatAppDispatcher.dispatch({
-      type: ActionTypes.RECEIVE_RAW_CREATED_MESSAGE,
-      rawMessage: createdMessage
-    });
-  }
 
-};
+routes(app);
+
+var port = 8080;
+app.listen(port, function () {
+    console.log('Node.js listening on port ' + port + '...');
+});

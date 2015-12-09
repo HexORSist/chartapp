@@ -3,9 +3,11 @@
   "version": "0.0.2",
   "description": "Example Flux chat application primarily intended to explain the use of Dispatcher.waitFor().",
   "repository": "https://github.com/facebook/flux",
-  "main": "js/app.js",
+  "main": "js/server.js",
   "dependencies": {
     "classnames": "^2.1.3",
+    "cookie-parser": "^1.4.0",
+    "express": "^4.13.3",
     "flux": "^2.0.0",
     "keymirror": "~0.1.0",
     "object-assign": "^1.0.0",
@@ -20,8 +22,10 @@
     "watchify": "^2.1.1"
   },
   "scripts": {
-    "start": "watchify -o js/bundle.js -v -d js/app.js",
-    "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > js/bundle.min.js",
+    "build": "npm run build-browse & npm run build-app",
+    "start": "node js/server.js",
+    "build-app": "watchify -o js/bundle.js -v -d js/app.js",
+    "build-browse": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > js/bundle.min.js",
     "test": "jest"
   },
   "author": "Bill Fisher",

@@ -10,23 +10,22 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var ChatAppDispatcher = require('../dispatcher/ChatAppDispatcher');
+var AppDispatcher = require('../dispatcher/AppDispatcher');
 var ChatConstants = require('../constants/ChatConstants');
-var ChatWebAPIUtils = require('../utils/ChatWebAPIUtils');
-var ChatMessageUtils = require('../utils/ChatMessageUtils');
+var TickerWebAPIUtils = require('../utils/TickerWebAPIUtils');
+//var ChatMessageUtils = require('../utils/ChatMessageUtils');
 
 var ActionTypes = ChatConstants.ActionTypes;
 
 module.exports = {
 
-  createMessage: function(text, currentThreadID) {
-    ChatAppDispatcher.dispatch({
+  createMessage: function(text) {
+    AppDispatcher.dispatch({
       type: ActionTypes.CREATE_MESSAGE,
       text: text,
-      currentThreadID: currentThreadID
     });
-    var message = ChatMessageUtils.getCreatedMessageData(text, currentThreadID);
-    ChatWebAPIUtils.createMessage(message);
+    //var message = ChatMessageUtils.getCreatedMessageData(text, currentThreadID);
+    TickerWebAPIUtils.createMessage(text);
   }
 
 };

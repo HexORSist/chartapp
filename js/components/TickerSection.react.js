@@ -10,29 +10,30 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var MessageComposer = require('./MessageComposer.react');
-var MessageListItem = require('./MessageListItem.react');
-var MessageStore = require('../stores/MessageStore');
+var TickerComposer = require('./TickerComposer.react');
+var TickerListItem = require('./TickerListItem.react');
+var TickerStore = require('../stores/TickerStore');
 var React = require('react');
-var ThreadStore = require('../stores/ThreadStore');
+//var ThreadStore = require('../stores/ThreadStore');
 
 function getStateFromStores() {
   return {
-    messages: MessageStore.getAllForCurrentThread(),
-    thread: ThreadStore.getCurrent()
+    //tickers: TickerStore.getAllForCurrentThread()
+    tickers: TickerStore.getAllForThread()
+    //thread: ThreadStore.getCurrent()
   };
 }
 
-function getMessageListItem(message) {
+function getTickerListItem(ticker) {
   return (
-    <MessageListItem
-      key={message.id}
-      message={message}
+    <TickerListItem
+      key={ticker}
+      message={ticker}
     />
   );
 }
 
-var MessageSection = React.createClass({
+var TickerSection = React.createClass({
 
   getInitialState: function() {
     return getStateFromStores();
@@ -40,24 +41,24 @@ var MessageSection = React.createClass({
 
   componentDidMount: function() {
     this._scrollToBottom();
-    MessageStore.addChangeListener(this._onChange);
-    ThreadStore.addChangeListener(this._onChange);
+    TickerStore.addChangeListener(this._onChange);
+    //ThreadStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function() {
-    MessageStore.removeChangeListener(this._onChange);
-    ThreadStore.removeChangeListener(this._onChange);
+    TickerStore.removeChangeListener(this._onChange);
+    //ThreadStore.removeChangeListener(this._onChange);
   },
 
   render: function() {
-    var messageListItems = this.state.messages.map(getMessageListItem);
+    var tickerListItems = this.state.tickers.map(getTickerListItem);
     return (
       <div className="message-section">
-        <h3 className="message-thread-heading">{this.state.thread.name}</h3>
+        <h3 className="message-thread-heading">this can be removed</h3>
         <ul className="message-list" ref="messageList">
-          {messageListItems}
+          {tickerListItems}
         </ul>
-        <MessageComposer threadID={this.state.thread.id}/>
+        <TickerComposer threadID={this.state.ticker}/>
       </div>
     );
   },
@@ -80,4 +81,4 @@ var MessageSection = React.createClass({
 
 });
 
-module.exports = MessageSection;
+module.exports = TickerSection;
