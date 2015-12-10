@@ -108,12 +108,14 @@ TickerStore.dispatchToken = AppDispatcher.register(function(action) {
       break;
 
     case ActionTypes.CREATE_MESSAGE:
-      var message = ChatMessageUtils.getCreatedMessageData(
-        action.text,
-        action.currentThreadID
+      /*var message = ChatMessageUtils.getCreatedMessageData(
+        action.text
       );
-      _messages[message.id] = message;
-      MessageStore.emitChange();
+      _messages[message.id] = message;*/
+      //console.log(action);
+      _Tickers.push(action.ticker);
+      //console.log(_Tickers);
+      TickerStore.emitChange();
       break;
 
     case ActionTypes.RECEIVE_RAW_MESSAGES:

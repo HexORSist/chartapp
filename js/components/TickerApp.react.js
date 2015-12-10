@@ -17,7 +17,7 @@ var TickerApp = React.createClass({
 
   render: function() {
     return (
-      <div className="chatapp">
+      <div className="stockapp">
         <TickerSection />
       </div>
     );

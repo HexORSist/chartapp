@@ -22,7 +22,7 @@ module.exports = {
   createMessage: function(text) {
     AppDispatcher.dispatch({
       type: ActionTypes.CREATE_MESSAGE,
-      text: text,
+      ticker: text
     });
     //var message = ChatMessageUtils.getCreatedMessageData(text, currentThreadID);
     TickerWebAPIUtils.createMessage(text);

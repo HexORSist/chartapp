@@ -30,9 +30,9 @@ module.exports = {
     TickerServerActionCreators.receiveAll(rawMessages);
   },
 
-  createMessage: function(message, threadName) {
+  createMessage: function(ticker) {
     // simulate writing to a database
-    var rawMessages = JSON.parse(localStorage.getItem('messages'));
+    /*var rawMessages = JSON.parse(localStorage.getItem('messages'));
     var timestamp = Date.now();
     var id = 'm_' + timestamp;
     var threadID = message.threadID || ('t_' + Date.now());
@@ -47,9 +47,9 @@ module.exports = {
     rawMessages.push(createdMessage);
     localStorage.setItem('messages', JSON.stringify(rawMessages));
 
-    // simulate success callback
+    // simulate success callback*/
     setTimeout(function() {
-      ChatServerActionCreators.receiveCreatedMessage(createdMessage);
+      TickerServerActionCreators.receiveCreatedMessage(ticker);
     }, 0);
   }
 

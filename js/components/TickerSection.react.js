@@ -24,11 +24,11 @@ function getStateFromStores() {
   };
 }
 
-function getTickerListItem(ticker) {
+function getTickerListItem(_ticker) {
   return (
     <TickerListItem
-      key={ticker}
-      message={ticker}
+      key={_ticker}
+      ticker={_ticker}
     />
   );
 }
@@ -53,12 +53,12 @@ var TickerSection = React.createClass({
   render: function() {
     var tickerListItems = this.state.tickers.map(getTickerListItem);
     return (
-      <div className="message-section">
-        <h3 className="message-thread-heading">this can be removed</h3>
-        <ul className="message-list" ref="messageList">
+      <div className="ticker-section">
+        <h3 className="ticker-heading">Stocks</h3>
+        <ul className="ticker-list" ref="messageList">
           {tickerListItems}
         </ul>
-        <TickerComposer threadID={this.state.ticker}/>
+        <TickerComposer/>
       </div>
     );
   },
@@ -77,6 +77,7 @@ var TickerSection = React.createClass({
    */
   _onChange: function() {
     this.setState(getStateFromStores());
+    //console.log(this.tickers);
   }
 
 });

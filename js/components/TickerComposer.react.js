@@ -15,11 +15,11 @@ var React = require('react');
 
 var ENTER_KEY_CODE = 13;
 
-var MessageComposer = React.createClass({
+var TickerComposer = React.createClass({
 
-  propTypes: {
+  /*propTypes: {
     threadID: React.PropTypes.string.isRequired
-  },
+  },*/
 
   getInitialState: function() {
     return {text: ''};
@@ -28,8 +28,8 @@ var MessageComposer = React.createClass({
   render: function() {
     return (
       <textarea
-        className="message-composer"
-        name="message"
+        className="ticker-composer"
+        name="ticker"
         value={this.state.text}
         onChange={this._onChange}
         onKeyDown={this._onKeyDown}
@@ -46,12 +46,13 @@ var MessageComposer = React.createClass({
       event.preventDefault();
       var text = this.state.text.trim();
       if (text) {
-        ChatMessageActionCreators.createMessage(text, this.props.threadID);
+        TickerMessageActionCreators.createMessage(text);
       }
+      //this.setProps({key: text});
       this.setState({text: ''});
     }
   }
 
 });
 
-module.exports = MessageComposer;
+module.exports = TickerComposer;

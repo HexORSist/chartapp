@@ -17,18 +17,14 @@ var ReactPropTypes = React.PropTypes;
 var TickerListItem = React.createClass({
 
   propTypes: {
-    ticker: ReactPropTypes.object
+    ticker: ReactPropTypes.string
   },
 
   render: function() {
     var ticker = this.props.ticker;
     return (
-      <li className="message-list-item">
-        <h5 className="message-author-name">{ticker}</h5>
-        <div className="message-time">
-          {/*message.date.toLocaleTimeString()*/}
-        </div>
-        <div className="message-text">{ticker}</div>
+      <li className="ticker-list-item">
+        <div className="ticker-text">{ticker}</div>
       </li>
     );
   }
