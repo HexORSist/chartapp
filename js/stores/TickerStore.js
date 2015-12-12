@@ -11,13 +11,13 @@
  */
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
-var ChatConstants = require('../constants/ChatConstants');
+var AppConstants = require('../constants/AppConstants');
 //var ChatMessageUtils = require('../utils/ChatMessageUtils');
 var EventEmitter = require('events').EventEmitter;
 //var ThreadStore = require('../stores/ThreadStore');
 var assign = require('object-assign');
 
-var ActionTypes = ChatConstants.ActionTypes;
+var ActionTypes = AppConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
 var _Tickers = [];
@@ -43,6 +43,12 @@ function _markAllInThreadRead(threadID) {
     }
   }
 }
+
+function _deleteTicker(ticker) {
+  delete _Tickers[_Tickers.indexOf(ticker)];
+}
+
+
 
 var TickerStore = assign({}, EventEmitter.prototype, {
 
@@ -105,6 +111,11 @@ TickerStore.dispatchToken = AppDispatcher.register(function(action) {
       ChatAppDispatcher.waitFor([ThreadStore.dispatchToken]);
       _markAllInThreadRead(ThreadStore.getCurrentID());
       MessageStore.emitChange();
+      break;
+      
+    case ActionTypes.DELETE_TICKER:
+      _deleteTicker(action.ticker);
+      TickerStore.emitChange();
       break;
 
     case ActionTypes.CREATE_MESSAGE:

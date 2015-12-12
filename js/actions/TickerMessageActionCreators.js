@@ -11,11 +11,11 @@
  */
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
-var ChatConstants = require('../constants/ChatConstants');
+var AppConstants = require('../constants/AppConstants');
 var TickerWebAPIUtils = require('../utils/TickerWebAPIUtils');
 //var ChatMessageUtils = require('../utils/ChatMessageUtils');
 
-var ActionTypes = ChatConstants.ActionTypes;
+var ActionTypes = AppConstants.ActionTypes;
 
 module.exports = {
 
@@ -26,6 +26,15 @@ module.exports = {
     });
     //var message = ChatMessageUtils.getCreatedMessageData(text, currentThreadID);
     TickerWebAPIUtils.createMessage(text);
+  },
+  
+    deleteTicker: function(ticker) {
+    AppDispatcher.dispatch({
+      type: ActionTypes.DELETE_TICKER,
+      ticker: ticker
+    });
+    //var message = ChatMessageUtils.getCreatedMessageData(text, currentThreadID);
+    //TickerWebAPIUtils.createMessage(ticker);
   }
 
 };

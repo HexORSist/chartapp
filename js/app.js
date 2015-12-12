@@ -17,12 +17,19 @@ var TickerApp = require('./components/TickerApp.react');
 var TickerWebAPIUtils = require('./utils/TickerWebAPIUtils');
 var React = require('react');
 window.React = React; // export for http://fb.me/react-devtools
+var ReactDOM = require('react-dom');
+var ReactHighcharts = require('./components/StockChart.react');
 
 //ChatExampleData.init(); // load example data into localstorage
 
 TickerWebAPIUtils.getAllTickers();
 
-React.render(
+ReactDOM.render(
     <TickerApp />,
     document.getElementById('react')
+);
+
+ReactDOM.render(
+    <ReactHighcharts />,
+    document.getElementById('chart')
 );

@@ -11,9 +11,9 @@
  */
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
-var ChatConstants = require('../constants/ChatConstants');
+var AppConstants = require('../constants/AppConstants');
 
-var ActionTypes = ChatConstants.ActionTypes;
+var ActionTypes = AppConstants.ActionTypes;
 
 module.exports = {
 

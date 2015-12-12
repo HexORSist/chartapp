@@ -10,6 +10,8 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+
+var TickerMessageActionCreators = require('../actions/TickerMessageActionCreators');
 var React = require('react');
 
 var ReactPropTypes = React.PropTypes;
@@ -24,9 +26,14 @@ var TickerListItem = React.createClass({
     var ticker = this.props.ticker;
     return (
       <li className="ticker-list-item">
-        <div className="ticker-text">{ticker}</div>
+        <div className="ticker-text">{ticker}
+        <span className="delete-ticker" onClick={this._onDelete}>&#10008;</span></div>
       </li>
     );
+  },
+  
+  _onDelete: function() {
+    TickerMessageActionCreators.deleteTicker(this.props.ticker);
   }
 
 });
