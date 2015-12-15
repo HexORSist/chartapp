@@ -14,15 +14,16 @@
 
 var TickerApp = require('./components/TickerApp.react');
 //var ChatExampleData = require('./ChatExampleData');
-var TickerWebAPIUtils = require('./utils/TickerWebAPIUtils');
+//var TickerWebAPIUtils = require('./utils/TickerWebAPIUtils');
 var React = require('react');
 window.React = React; // export for http://fb.me/react-devtools
 var ReactDOM = require('react-dom');
 var ReactHighcharts = require('./components/StockChart.react');
+//var $ = require('jquery');
 
 //ChatExampleData.init(); // load example data into localstorage
 
-TickerWebAPIUtils.getAllTickers();
+//TickerWebAPIUtils.getAllTickers();
 
 ReactDOM.render(
     <TickerApp />,

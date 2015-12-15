@@ -14,8 +14,8 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var AppConstants = require('../constants/AppConstants');
 //var ChatMessageUtils = require('../utils/ChatMessageUtils');
 var EventEmitter = require('events').EventEmitter;
-//var ThreadStore = require('../stores/ThreadStore');
 var assign = require('object-assign');
+//var ChartActionCreators = require('../actions/ChartActionCreators');
 
 var ActionTypes = AppConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
@@ -107,34 +107,27 @@ TickerStore.dispatchToken = AppDispatcher.register(function(action) {
 
   switch(action.type) {
 
-    case ActionTypes.CLICK_THREAD:
-      ChatAppDispatcher.waitFor([ThreadStore.dispatchToken]);
-      _markAllInThreadRead(ThreadStore.getCurrentID());
-      MessageStore.emitChange();
-      break;
-      
     case ActionTypes.DELETE_TICKER:
       _deleteTicker(action.ticker);
       TickerStore.emitChange();
       break;
 
-    case ActionTypes.CREATE_MESSAGE:
-      /*var message = ChatMessageUtils.getCreatedMessageData(
-        action.text
-      );
-      _messages[message.id] = message;*/
-      //console.log(action);
+    case ActionTypes.ADD_TICKER:
       _Tickers.push(action.ticker);
-      //console.log(_Tickers);
       TickerStore.emitChange();
+      //setTimeout(ChartStore.emitChange,1000);
+      //ChartActionCreators.getChartURLS();
       break;
 
-    case ActionTypes.RECEIVE_RAW_MESSAGES:
+    case ActionTypes.ADD_TICKERS:
       //console.log(action);
       _addTickers(action.Tickers);
       //AppDispatcher.waitFor([ThreadStore.dispatchToken]);
       //_markAllInThreadRead(ThreadStore.getCurrentID());
+      //AppDispatcher.waitFor([ChartStore.dispatchToken]);
       TickerStore.emitChange();
+      //setTimeout(ChartStore.emitChange(),1000);
+      //ChartStore.emitChange();
       break;
 
     default:

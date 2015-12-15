@@ -16,10 +16,13 @@ module.exports = {
 
   ActionTypes: keyMirror({
     CLICK_THREAD: null,
-    CREATE_MESSAGE: null,
+    ADD_TICKER: null,
     DELETE_TICKER: null,
+    GETCHART_URLS: null,
+    RECEIVECHART_URLS: null,
+    RECEIVECHART_DATA: null,
     RECEIVE_RAW_CREATED_MESSAGE: null,
-    RECEIVE_RAW_MESSAGES: null
+    ADD_TICKERS: null
   })
 
 };

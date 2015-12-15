@@ -12,23 +12,25 @@
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var AppConstants = require('../constants/AppConstants');
+var ChartWebAPIUtils = require('../utils/ChartWebAPIUtils');
+//var ChatMessageUtils = require('../utils/ChatMessageUtils');
 
 var ActionTypes = AppConstants.ActionTypes;
 
 module.exports = {
 
-  receiveAll: function(rawMessages) {
+  receivedChartURLS: function(data){
     AppDispatcher.dispatch({
-      type: ActionTypes.RECEIVE_RAW_MESSAGES,
-      Tickers: rawMessages.Tickers
-    });
+      type: ActionTypes.RECEIVECHART_URLS,
+      data: data
+    });    
   },
-
-  receiveCreatedMessage: function(createdMessage) {
+  
+  receivedChartData: function(data){
     AppDispatcher.dispatch({
-      type: ActionTypes.RECEIVE_RAW_CREATED_MESSAGE,
-      rawMessage: createdMessage
-    });
+      type: ActionTypes.RECEIVEDCHART_DATA,
+      data: data
+    });    
   }
 
 };

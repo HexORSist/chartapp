@@ -12,6 +12,7 @@
 
 #chart {
   display: inline-block;
+  vertical-align: top;
   height: 300px;
 }
 

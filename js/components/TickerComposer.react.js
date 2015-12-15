@@ -46,7 +46,7 @@ var TickerComposer = React.createClass({
       event.preventDefault();
       var text = this.state.text.trim();
       if (text) {
-        TickerMessageActionCreators.createMessage(text);
+        TickerMessageActionCreators.addTicker(text);
       }
       //this.setProps({key: text});
       this.setState({text: ''});
