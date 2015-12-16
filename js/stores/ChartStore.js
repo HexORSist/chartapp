@@ -21,6 +21,7 @@ var ActionTypes = AppConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
 var ChartURLS = [];
+var ChartData = {};
 
 function _addCharts(Charts) {
 
@@ -53,6 +54,24 @@ var ChartStore = assign({}, EventEmitter.prototype, {
 
   getChartData: function(chartURLS){
     ChartWebAPIUtils.getChartData(chartURLS);
+  },
+  
+  receivedChartData: function(_ChartData){
+    
+    ChartData = {
+        xAxis: {
+          categories: _ChartData.dataset.data.map(function(elm){
+                        return elm[0];
+                      })
+        },
+        series: [{
+          data: _ChartData.dataset.data.map(function(elm){
+                  return elm[1];
+                })
+          }]        
+    };
+    console.log(ChartData);
+    //ChartWebAPIUtils.getChartData(ChartData);
   }
   
 
@@ -75,7 +94,8 @@ ChartStore.dispatchToken = AppDispatcher.register(function(action) {
       break;
       
     case ActionTypes.RECEIVEDCHART_DATA:
-      console.log(action.data)
+      //console.log(action.data)
+      ChartStore.receivedChartData(action.data);
       break;
       
     

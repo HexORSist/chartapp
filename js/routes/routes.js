@@ -1,3 +1,5 @@
+
+var chartserver = require('../server/chartserver');
 var path = process.cwd();
 
 //var ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
@@ -21,8 +23,8 @@ module.exports = function (app) {
     app.route('/getChartURLS/')
         .get(function (req, res) {
             //console.log(req.cookies);
-            console.log(req.cookies)
-            res.send(JSON.stringify("https://www.quandl.com/api/v3/datasets/WIKI/AAPL.json?order=asc&exclude_column_names=true&start_date=2012-11-01&end_date=2012-11-30&column_index=4&collapse=weekly&transformation=rdiff"));
+            //console.log(req.cookies)
+            res.send(chartserver.createChartURLS(['AAPL']));
         });
 
         
