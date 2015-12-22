@@ -26,10 +26,25 @@ module.exports = function (app) {
             //console.log(req.cookies)
             res.send(chartserver.createChartURLS(['AAPL']));
         });
+        
+    app.route('/deleteTicker/')
+        .post(function (req, res) {
+            //console.log(req.cookies);
+            //console.log(req.cookies)
+            chartserver.deleteTicker(req,res);
+        });
 
         
-    /*app.route('/api/clicks')
-        .get(clickHandler.getClicks)
-        .post(clickHandler.addClick)
-        .delete(clickHandler.resetClicks);*/
+    app.route('/addTicker/')
+        .post(function (req, res) {
+            //console.log(req.cookies);
+            //console.log(req.cookies)
+            chartserver.addTicker(req,res);
+        });
+
+    app.route('/getAllTickers/')
+        .get(function (req, res) {
+            chartserver.getAllTickers(req,res);
+        });
+
 };

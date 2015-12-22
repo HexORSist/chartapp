@@ -12,10 +12,9 @@
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var AppConstants = require('../constants/AppConstants');
-//var ChatMessageUtils = require('../utils/ChatMessageUtils');
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
-//var ChartActionCreators = require('../actions/ChartActionCreators');
+var ChartWebAPIUtils = require('../utils/ChartWebAPIUtils');
 
 var ActionTypes = AppConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
@@ -23,32 +22,12 @@ var CHANGE_EVENT = 'change';
 var _Tickers = [];
 
 function _addTickers(Tickers) {
-  //alert(Tickers);
-  /*Tickers.forEach(function(tickers) {
-    if (!_messages[message.id]) {
-      _messages[message.id] = ChatMessageUtils.convertRawMessage(
-        message,
-        ThreadStore.getCurrentID()
-      );
-    }
-    _Tickers.push(tickers);
-  });*/
   _Tickers=Tickers;
-}
-
-function _markAllInThreadRead(threadID) {
-  for (var id in _messages) {
-    if (_messages[id].threadID === threadID) {
-      _messages[id].isRead = true;
-    }
-  }
 }
 
 function _deleteTicker(ticker) {
   delete _Tickers[_Tickers.indexOf(ticker)];
 }
-
-
 
 var TickerStore = assign({}, EventEmitter.prototype, {
 
@@ -56,9 +35,6 @@ var TickerStore = assign({}, EventEmitter.prototype, {
     this.emit(CHANGE_EVENT);
   },
 
-  /**
-   * @param {function} callback
-   */
   addChangeListener: function(callback) {
     this.on(CHANGE_EVENT, callback);
   },
@@ -66,41 +42,12 @@ var TickerStore = assign({}, EventEmitter.prototype, {
   removeChangeListener: function(callback) {
     this.removeListener(CHANGE_EVENT, callback);
   },
-
-  get: function(id) {
-    return _messages[id];
-  },
-
-  getAll: function() {
-    return _messages;
-  },
-
-  /**
-   * @param {string} threadID
-   */
-  getAllForThread: function() {
+  
+  getAllTickers: function() {
     var tickers=_Tickers;
-    /*var threadMessages = [];
-    for (var id in _messages) {
-      if (_messages[id].threadID === threadID) {
-        threadMessages.push(_messages[id]);
-      }
-    }
-    threadMessages.sort(function(a, b) {
-      if (a.date < b.date) {
-        return -1;
-      } else if (a.date > b.date) {
-        return 1;
-      }
-      return 0;
-    });*/
     return tickers;
-  },
-
-  /*getAllForCurrentThread: function() {
-    return this.getAllForThread(ThreadStore.getCurrentID());
-  }*/
-
+  }
+  
 });
 
 TickerStore.dispatchToken = AppDispatcher.register(function(action) {
@@ -109,25 +56,19 @@ TickerStore.dispatchToken = AppDispatcher.register(function(action) {
 
     case ActionTypes.DELETE_TICKER:
       _deleteTicker(action.ticker);
+      ChartWebAPIUtils.deleteTicker(action.ticker);
       TickerStore.emitChange();
       break;
 
     case ActionTypes.ADD_TICKER:
       _Tickers.push(action.ticker);
+      ChartWebAPIUtils.addTicker(action.ticker);
       TickerStore.emitChange();
-      //setTimeout(ChartStore.emitChange,1000);
-      //ChartActionCreators.getChartURLS();
       break;
 
-    case ActionTypes.ADD_TICKERS:
-      //console.log(action);
-      _addTickers(action.Tickers);
-      //AppDispatcher.waitFor([ThreadStore.dispatchToken]);
-      //_markAllInThreadRead(ThreadStore.getCurrentID());
-      //AppDispatcher.waitFor([ChartStore.dispatchToken]);
+    case ActionTypes.RECEIVED_TICKERS:
+      _addTickers(action.tickers);
       TickerStore.emitChange();
-      //setTimeout(ChartStore.emitChange(),1000);
-      //ChartStore.emitChange();
       break;
 
     default:

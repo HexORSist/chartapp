@@ -11,6 +11,7 @@
  */
 
 var ChartActionCreators = require('../actions/ChartActionCreators');
+var TickerMessageActionCreators = require('../actions/TickerMessageActionCreators');
 //var React = require('react-dom');
 var $ = require('jquery');
 
@@ -23,6 +24,57 @@ var $ = require('jquery');
 // communication and server-side processing.
 
 module.exports = {
+  
+  getAllTickers: function(){
+    //console.log('getalltickers called');
+    $.ajax({
+      url: 'getAllTickers/',
+      dataType: 'json',
+      type: 'GET',
+      success: function(data) {
+        //console.log(data)
+        TickerMessageActionCreators.receivedTickers(data);
+        //callback(data);
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+
+  
+  deleteTicker: function(Ticker){
+    //console.log(Ticker);
+    $.ajax({
+      url: 'deleteTicker/',
+      dataType: 'json',
+      type: 'POST',
+      data: {Ticker:Ticker},
+      success: function(data) {
+        //ChartActionCreators.receivedChartData(data);
+      }.bind(this),
+      error: function(xhr, status, err) {
+        //console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+
+  
+  addTicker: function(Ticker){
+    //console.log(Ticker);
+    $.ajax({
+      url: 'addTicker/',
+      dataType: 'json',
+      type: 'POST',
+      data: {Ticker:Ticker},
+      success: function(data) {
+        //ChartActionCreators.receivedChartData(data);
+      }.bind(this),
+      error: function(xhr, status, err) {
+        //console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
 
   getChartData: function(chartURLS) {
     $.ajax({

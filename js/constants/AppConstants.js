@@ -22,7 +22,7 @@ module.exports = {
     RECEIVECHART_URLS: null,
     RECEIVECHART_DATA: null,
     RECEIVE_RAW_CREATED_MESSAGE: null,
-    ADD_TICKERS: null
+    RECEIVED_TICKERS: null
   })
 
 };

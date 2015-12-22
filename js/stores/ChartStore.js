@@ -21,7 +21,18 @@ var ActionTypes = AppConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
 var ChartURLS = [];
-var ChartData = {};
+var ChartData = {
+        title: {
+          text: ''
+        },
+        xAxis: {
+          categories: []
+        },
+        series: [{
+          data: [],
+          name: ''
+          }]        
+    };
 
 function _addCharts(Charts) {
 
@@ -42,7 +53,7 @@ var ChartStore = assign({}, EventEmitter.prototype, {
   removeChangeListener: function(callback) {
     this.removeListener(CHANGE_EVENT, callback);
   },
-
+  
   getChartURLS: function() {
     ChartWebAPIUtils.getChartURLS();
     //ChartURLS=["https://www.quandl.com/api/v3/datasets/WIKI/AAPL.json?order=asc&exclude_column_names=true&start_date=2012-11-01&end_date=2012-11-30&column_index=4&collapse=weekly&transformation=rdiff"];
@@ -57,21 +68,22 @@ var ChartStore = assign({}, EventEmitter.prototype, {
   },
   
   receivedChartData: function(_ChartData){
+    //console.log(_ChartData)
+    var _data = _ChartData.dataset.data.map(function(elm){return elm[1];})
+    var _name = _ChartData.dataset.name
+    var _catagories = _ChartData.dataset.data.map(function(elm){return elm[0];})
     
-    ChartData = {
-        xAxis: {
-          categories: _ChartData.dataset.data.map(function(elm){
-                        return elm[0];
-                      })
-        },
-        series: [{
-          data: _ChartData.dataset.data.map(function(elm){
-                  return elm[1];
-                })
-          }]        
-    };
-    console.log(ChartData);
-    //ChartWebAPIUtils.getChartData(ChartData);
+    ChartData.title.text = 'Stock Market';
+    if(!ChartData.xAxis.categories)
+      ChartData.xAxis.categories=_catagories;
+    ChartData.series.push({
+      data: _data,
+      name: _name
+    });
+  },
+  
+  giveChartData: function(){
+    return ChartData;
   }
   
 
@@ -80,11 +92,14 @@ var ChartStore = assign({}, EventEmitter.prototype, {
 ChartStore.dispatchToken = AppDispatcher.register(function(action) {
 
   switch(action.type) {
-
-    case ActionTypes.DELETE_TICKER:
-      //console.log(TickerStore.dispatchToken)
+    
+    case ActionTypes.ADD_TICKER:
       AppDispatcher.waitFor([TickerStore.dispatchToken]);
-      ChartStore.getChartURLS();
+      break;
+      
+    case ActionTypes.DELETE_TICKER:
+      AppDispatcher.waitFor([TickerStore.dispatchToken]);
+      //ChartStore.getChartURLS();
       ChartStore.emitChange();
       break;
       
@@ -94,13 +109,9 @@ ChartStore.dispatchToken = AppDispatcher.register(function(action) {
       break;
       
     case ActionTypes.RECEIVEDCHART_DATA:
-      //console.log(action.data)
       ChartStore.receivedChartData(action.data);
+      ChartStore.emitChange();
       break;
-      
-    
-      
-      
     default:
       // do nothing
   }

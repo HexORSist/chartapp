@@ -12,7 +12,7 @@
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var AppConstants = require('../constants/AppConstants');
-var ChartWebAPIUtils = require('../utils/ChartWebAPIUtils');
+//var ChartWebAPIUtils = require('../utils/ChartWebAPIUtils');
 //var ChatMessageUtils = require('../utils/ChatMessageUtils');
 
 var ActionTypes = AppConstants.ActionTypes;
@@ -28,13 +28,19 @@ module.exports = {
     //TickerWebAPIUtils.addTicker(text);
   },
   
-  deleteTicker: function(ticker) {
-  AppDispatcher.dispatch({
-    type: ActionTypes.DELETE_TICKER,
-    ticker: ticker
-  });
-    //var message = ChatMessageUtils.getCreatedMessageData(text, currentThreadID);
-    //TickerWebAPIUtils.deleteTicker(ticker);
+  deleteTicker: function(text) {
+    AppDispatcher.dispatch({
+      type: ActionTypes.DELETE_TICKER,
+      ticker: text
+    });
+  },
+  
+  receivedTickers: function(text) {
+     AppDispatcher.dispatch({
+      type: ActionTypes.RECEIVED_TICKERS,
+      tickers: text
+    });
   }
 
+  
 };

@@ -13,14 +13,15 @@
 var TickerComposer = require('./TickerComposer.react');
 var TickerListItem = require('./TickerListItem.react');
 var TickerStore = require('../stores/TickerStore');
+var ChartWebAPIUtils = require('../utils/ChartWebAPIUtils');
+
 var React = require('react');
-//var ThreadStore = require('../stores/ThreadStore');
+
+//ChartWebAPIUtils.getAllTickers();
 
 function getStateFromStores() {
   return {
-    //tickers: TickerStore.getAllForCurrentThread()
-    tickers: TickerStore.getAllForThread()
-    //thread: ThreadStore.getCurrent()
+    tickers: TickerStore.getAllTickers()
   };
 }
 
@@ -40,14 +41,12 @@ var TickerSection = React.createClass({
   },
 
   componentDidMount: function() {
-    this._scrollToBottom();
     TickerStore.addChangeListener(this._onChange);
-    //ThreadStore.addChangeListener(this._onChange);
+    ChartWebAPIUtils.getAllTickers();
   },
 
   componentWillUnmount: function() {
     TickerStore.removeChangeListener(this._onChange);
-    //ThreadStore.removeChangeListener(this._onChange);
   },
 
   render: function() {
@@ -63,21 +62,8 @@ var TickerSection = React.createClass({
     );
   },
 
-  componentDidUpdate: function() {
-    this._scrollToBottom();
-  },
-
-  _scrollToBottom: function() {
-    var ul = this.refs.messageList.getDOMNode();
-    ul.scrollTop = ul.scrollHeight;
-  },
-
-  /**
-   * Event handler for 'change' events coming from the MessageStore
-   */
   _onChange: function() {
     this.setState(getStateFromStores());
-    //console.log(this.tickers);
   }
 
 });
