@@ -40,14 +40,15 @@ module.exports = {
         });
     },
 
-    createChartURLS: function(charts) {
+    createChartURLS: function(req,res) {
         var baseURL = "https://www.quandl.com/api/v3/datasets/WIKI/";
         var currdate = new Date()
         var yearago = (currdate.getFullYear()-1)+'-'+(currdate.getMonth()+1)+'-'+currdate.getDate();
+        var apikey = '&api_key=xxDEpf1s4fpTji_R1waZ';
         
-        var URLS = charts.map(function(elm){
-            return baseURL+elm+'.json?'+'&start_date='+yearago+'&column_index=4&collapse=weekly';
+        var URLS = req.body.ChartURLS.map(function(elm){
+            return baseURL+elm+'.json?'+'start_date='+yearago+'&column_index=4&collapse=weekly&order=asc'+apikey;
         });
-        return JSON.stringify(URLS[0])
+        return JSON.stringify(URLS)
     }
 };

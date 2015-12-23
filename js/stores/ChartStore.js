@@ -55,16 +55,19 @@ var ChartStore = assign({}, EventEmitter.prototype, {
   },
   
   getChartURLS: function() {
-    ChartWebAPIUtils.getChartURLS();
+    ChartWebAPIUtils.getChartURLS(ChartURLS);
     //ChartURLS=["https://www.quandl.com/api/v3/datasets/WIKI/AAPL.json?order=asc&exclude_column_names=true&start_date=2012-11-01&end_date=2012-11-30&column_index=4&collapse=weekly&transformation=rdiff"];
   },
   
   receiveChartURLS: function(_ChartURLS) {
+    //console.log(_ChartURLS)
     ChartURLS=_ChartURLS;
   },
 
   getChartData: function(chartURLS){
-    ChartWebAPIUtils.getChartData(chartURLS);
+    chartURLS.forEach(function(URL){
+      ChartWebAPIUtils.getChartData(URL);
+    });
   },
   
   receivedChartData: function(_ChartData){
@@ -72,14 +75,21 @@ var ChartStore = assign({}, EventEmitter.prototype, {
     var _data = _ChartData.dataset.data.map(function(elm){return elm[1];})
     var _name = _ChartData.dataset.name
     var _catagories = _ChartData.dataset.data.map(function(elm){return elm[0];})
-    
+    //console.log(_catagories);
     ChartData.title.text = 'Stock Market';
-    if(!ChartData.xAxis.categories)
-      ChartData.xAxis.categories=_catagories;
-    ChartData.series.push({
-      data: _data,
-      name: _name
-    });
+    //if(!ChartData.xAxis.categories)
+    ChartData.xAxis.categories=_catagories;
+    if(ChartData.series.length<=0){
+      ChartData.series[0]={
+        data: _data,
+        name: _name
+      };
+    }else{
+      ChartData.series.push({
+        data: _data,
+        name: _name
+      });
+    }
   },
   
   giveChartData: function(){
@@ -112,6 +122,17 @@ ChartStore.dispatchToken = AppDispatcher.register(function(action) {
       ChartStore.receivedChartData(action.data);
       ChartStore.emitChange();
       break;
+      
+    case ActionTypes.RECEIVED_TICKERS:
+      AppDispatcher.waitFor([TickerStore.dispatchToken]);
+      console.log(action.tickers);
+      ChartStore.receiveChartURLS(action.tickers);
+      ChartStore.getChartURLS(ChartURLS);
+      //action.tickers;
+      ChartStore.emitChange();
+      break;
+  
+      
     default:
       // do nothing
   }

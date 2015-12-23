@@ -21,10 +21,10 @@ module.exports = function (app) {
         });
         
     app.route('/getChartURLS/')
-        .get(function (req, res) {
+        .post(function (req, res) {
             //console.log(req.cookies);
             //console.log(req.cookies)
-            res.send(chartserver.createChartURLS(['AAPL']));
+            res.send(chartserver.createChartURLS(req,res));
         });
         
     app.route('/deleteTicker/')

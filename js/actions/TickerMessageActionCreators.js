@@ -12,8 +12,6 @@
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var AppConstants = require('../constants/AppConstants');
-//var ChartWebAPIUtils = require('../utils/ChartWebAPIUtils');
-//var ChatMessageUtils = require('../utils/ChatMessageUtils');
 
 var ActionTypes = AppConstants.ActionTypes;
 
@@ -24,8 +22,6 @@ module.exports = {
       type: ActionTypes.ADD_TICKER,
       ticker: text
     });
-    //var message = ChatMessageUtils.getCreatedMessageData(text, currentThreadID);
-    //TickerWebAPIUtils.addTicker(text);
   },
   
   deleteTicker: function(text) {

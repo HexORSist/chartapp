@@ -44,7 +44,6 @@ module.exports = {
 
   
   deleteTicker: function(Ticker){
-    //console.log(Ticker);
     $.ajax({
       url: 'deleteTicker/',
       dataType: 'json',
@@ -90,13 +89,14 @@ module.exports = {
     });
   },
   
-  getChartURLS: function() {
+  getChartURLS: function(ChartURLS) {
     $.ajax({
       url: 'getChartURLS/',
       dataType: 'json',
-      type: 'GET',
+      type: 'POST',
+      data: {ChartURLS:ChartURLS},
       success: function(data) {
-        console.log(data);
+        //console.log(data);
         ChartActionCreators.receivedChartURLS(data);
       }.bind(this),
       error: function(xhr, status, err) {

@@ -13,20 +13,10 @@
 // This file bootstraps the entire application.
 
 var TickerApp = require('./components/TickerApp.react');
-//var ChatExampleData = require('./ChatExampleData');
-//var TickerWebAPIUtils = require('./utils/TickerWebAPIUtils');
 var React = require('react');
 window.React = React; // export for http://fb.me/react-devtools
 var ReactDOM = require('react-dom');
 var ReactHighcharts = require('./components/StockChart.react');
-//var ChartWebAPIUtils = require('./utils/ChartWebAPIUtils');
-//var $ = require('jquery');
-
-//ChatExampleData.init(); // load example data into localstorage
-
-//TickerWebAPIUtils.getAllTickers();
-
-//ChartWebAPIUtils.getAllTickers();
 
 ReactDOM.render(
     <TickerApp />,
