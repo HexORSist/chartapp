@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({extended : true}));
 
 routes(app);
 
-var port = 8080;
+var port = process.env.PORT || 8080;
 app.listen(port, function () {
     console.log('Node.js listening on port ' + port + '...');
 });
