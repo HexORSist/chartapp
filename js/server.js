@@ -15,7 +15,7 @@
 
 var express = require('express');
 var app = express();
-var cookieParser = require('cookie-parser');
+//var cookieParser = require('cookie-parser');
 var routes = require('./routes/routes.js');
 var bodyParser = require("body-parser");
 //var mongoose = require('mongoose');
@@ -23,7 +23,7 @@ var bodyParser = require("body-parser");
 
 app.use('/css', express.static(process.cwd() + '/css'));
 app.use('/js', express.static(process.cwd() + '/js'));
-app.use(cookieParser());
+//app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended : true}));
 
 

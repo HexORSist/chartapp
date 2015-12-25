@@ -4,9 +4,7 @@ var Chart = require('../models/ticker.model.js');
 module.exports = {
     
     getAllTickers: function(req,res){
-        //console.log(req)
         Chart.findOne(function(err,data){
-            //console.log(data.tickers)
             if (err) return console.error(err);
             res.send(data.tickers)
         });
@@ -14,18 +12,17 @@ module.exports = {
     
     addTicker: function(req,res){
         Chart.findOne(function(err,data){
-            //console.log(data)
             if (err) return console.error(err);
             if(!data){
                 Chart.create({tickers:[req.body.Ticker]},function(err,data){
                     if (err) return console.error(err); 
                     data.save();
-                    res.send(req.body.Ticker);
+                    res.send(data.tickers);
                 })
             } else {
                 data.tickers.push(req.body.Ticker);
                 data.save();
-                res.send(req.body.Ticker);
+                res.send(data.tickers);
             }
         });
     },
@@ -36,7 +33,7 @@ module.exports = {
             var idx = data.tickers.indexOf(req.body.Ticker);
             data.tickers.splice(idx,1);
             data.save();
-            //console.log(data.tickers);
+            res.send(data.tickers);
         });
     },
 

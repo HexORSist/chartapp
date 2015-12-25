@@ -21,24 +21,7 @@ var ActionTypes = AppConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
 var ChartURLS = [];
-var ChartData = {
-        title: {
-          text: ''
-        },
-        xAxis: {
-          categories: []
-        },
-        series: [{
-          data: [],
-          name: ''
-          }]        
-    };
-
-function _addCharts(Charts) {
-
-  
-}
-
+var ChartData = {};
 
 var ChartStore = assign({}, EventEmitter.prototype, {
 
@@ -54,30 +37,57 @@ var ChartStore = assign({}, EventEmitter.prototype, {
     this.removeListener(CHANGE_EVENT, callback);
   },
   
-  getChartURLS: function() {
-    ChartWebAPIUtils.getChartURLS(ChartURLS);
-    //ChartURLS=["https://www.quandl.com/api/v3/datasets/WIKI/AAPL.json?order=asc&exclude_column_names=true&start_date=2012-11-01&end_date=2012-11-30&column_index=4&collapse=weekly&transformation=rdiff"];
+  getChartURLS: function(tickers) {
+    ChartWebAPIUtils.getChartURLS(tickers);
   },
   
   receiveChartURLS: function(_ChartURLS) {
-    //console.log(_ChartURLS)
     ChartURLS=_ChartURLS;
   },
 
   getChartData: function(chartURLS){
+    ChartData = {
+        title: {
+          text: ''
+        },
+        xAxis: {
+          categories: []
+        },
+        series: [{
+          data: [],
+          name: ''
+          }]        
+    };
+
     chartURLS.forEach(function(URL){
       ChartWebAPIUtils.getChartData(URL);
     });
   },
   
   receivedChartData: function(_ChartData){
-    //console.log(_ChartData)
     var _data = _ChartData.dataset.data.map(function(elm){return elm[1];})
     var _name = _ChartData.dataset.name
     var _catagories = _ChartData.dataset.data.map(function(elm){return elm[0];})
-    //console.log(_catagories);
     ChartData.title.text = 'Stock Market';
-    //if(!ChartData.xAxis.categories)
+    ChartData.xAxis.categories=_catagories;
+    if(ChartData.series.length<=0){
+      ChartData.series[0]={
+        data: _data,
+        name: _name
+      };
+    }else{
+      ChartData.series.push({
+        data: _data,
+        name: _name
+      });
+    }
+  },
+  
+  addChartData: function(_ChartData){
+    var _data = _ChartData.dataset.data.map(function(elm){return elm[1];})
+    var _name = _ChartData.dataset.name
+    var _catagories = _ChartData.dataset.data.map(function(elm){return elm[0];})
+    ChartData.title.text = 'Stock Market';
     ChartData.xAxis.categories=_catagories;
     if(ChartData.series.length<=0){
       ChartData.series[0]={
@@ -95,8 +105,6 @@ var ChartStore = assign({}, EventEmitter.prototype, {
   giveChartData: function(){
     return ChartData;
   }
-  
-
 });
 
 ChartStore.dispatchToken = AppDispatcher.register(function(action) {
@@ -105,11 +113,11 @@ ChartStore.dispatchToken = AppDispatcher.register(function(action) {
     
     case ActionTypes.ADD_TICKER:
       AppDispatcher.waitFor([TickerStore.dispatchToken]);
+      ChartStore.emitChange();
       break;
       
     case ActionTypes.DELETE_TICKER:
       AppDispatcher.waitFor([TickerStore.dispatchToken]);
-      //ChartStore.getChartURLS();
       ChartStore.emitChange();
       break;
       
@@ -125,14 +133,10 @@ ChartStore.dispatchToken = AppDispatcher.register(function(action) {
       
     case ActionTypes.RECEIVED_TICKERS:
       AppDispatcher.waitFor([TickerStore.dispatchToken]);
-      console.log(action.tickers);
-      ChartStore.receiveChartURLS(action.tickers);
-      ChartStore.getChartURLS(ChartURLS);
-      //action.tickers;
+      ChartStore.getChartURLS(action.tickers);
       ChartStore.emitChange();
       break;
-  
-      
+
     default:
       // do nothing
   }

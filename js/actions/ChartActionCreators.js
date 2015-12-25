@@ -12,8 +12,6 @@
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var AppConstants = require('../constants/AppConstants');
-//var ChartWebAPIUtils = require('../utils/ChartWebAPIUtils');
-//var ChatMessageUtils = require('../utils/ChatMessageUtils');
 
 var ActionTypes = AppConstants.ActionTypes;
 

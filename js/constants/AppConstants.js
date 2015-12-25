@@ -15,13 +15,11 @@ var keyMirror = require('keymirror');
 module.exports = {
 
   ActionTypes: keyMirror({
-    CLICK_THREAD: null,
     ADD_TICKER: null,
     DELETE_TICKER: null,
     GETCHART_URLS: null,
     RECEIVECHART_URLS: null,
     RECEIVECHART_DATA: null,
-    RECEIVE_RAW_CREATED_MESSAGE: null,
     RECEIVED_TICKERS: null
   })
 

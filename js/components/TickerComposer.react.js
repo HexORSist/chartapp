@@ -17,10 +17,6 @@ var ENTER_KEY_CODE = 13;
 
 var TickerComposer = React.createClass({
 
-  /*propTypes: {
-    threadID: React.PropTypes.string.isRequired
-  },*/
-
   getInitialState: function() {
     return {text: ''};
   },
@@ -48,7 +44,6 @@ var TickerComposer = React.createClass({
       if (text) {
         TickerMessageActionCreators.addTicker(text);
       }
-      //this.setProps({key: text});
       this.setState({text: ''});
     }
   }

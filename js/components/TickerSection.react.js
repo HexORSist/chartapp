@@ -17,8 +17,6 @@ var ChartWebAPIUtils = require('../utils/ChartWebAPIUtils');
 
 var React = require('react');
 
-//ChartWebAPIUtils.getAllTickers();
-
 function getStateFromStores() {
   return {
     tickers: TickerStore.getAllTickers()
